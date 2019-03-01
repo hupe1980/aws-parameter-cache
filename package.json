@@ -1,0 +1,45 @@
+{
+  "name": "aws-parameter-cache",
+  "version": "1.0.0",
+  "description": "Parameter cache for AWS System Manager Parameter Store and AWS Secrets Manager",
+  "author": "hello@webappsolutions.de",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hupe1980/aws-parameter-cache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hupe1980/aws-parameter-cache/issues"
+  },
+  "homepage": "https://github.com/hupe1980/aws-parameter-cache#readme",
+  "keywords": [
+    "aws",
+    "aws-sdk",
+    "ssm",
+    "aws-ssm",
+    "cache",
+    "secrests-manager",
+    "parameter-store"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "aws-sdk": ">=2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.9",
+    "@types/node": "^11.9.5",
+    "aws-sdk": "^2.411.0",
+    "jest": "^24.1.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.3333"
+  }
+}
