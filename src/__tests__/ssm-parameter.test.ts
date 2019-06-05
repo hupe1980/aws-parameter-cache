@@ -56,7 +56,7 @@ describe('aws-parameter-cache: ssm-parameter', () => {
   });
 
   it('should invalidate the cache', async () => {
-    Date.now = jest.spyOn(Date, 'now').mockImplementation(() => 1000);
+    Date.now = jest.fn(() => 1000);
     const param = ssmParameter({ name: 'foo', maxAge: 1000 });
 
     expect(param.name).toBe('foo');
@@ -70,8 +70,7 @@ describe('aws-parameter-cache: ssm-parameter', () => {
 
     expect(await param.value).toBe('bar');
 
-    Date.now = jest.spyOn(Date, 'now').mockImplementation(() => 3000);
-
+    Date.now = jest.fn(() => 3000);
     expect(await param.value).toBe('XXX');
   });
 });
