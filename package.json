@@ -1,6 +1,6 @@
 {
   "name": "aws-parameter-cache",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Parameter cache for AWS System Manager Parameter Store and AWS Secrets Manager",
   "author": "hello@webappsolutions.de",
   "repository": {
@@ -36,12 +36,12 @@
     "aws-sdk": ">=2.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.4",
-    "aws-sdk": "^2.468.0",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.6.2",
+    "aws-sdk": "^2.493.0",
     "jest": "^24.8.0",
     "rimraf": "^2.6.3",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.3"
   }
 }
