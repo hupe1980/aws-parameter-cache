@@ -50,6 +50,8 @@ describe('aws-parameter-cache: ssm-parameter', () => {
       Value: 'XXX'
     });
 
+    expect(await param.value).toBe('bar');
+
     param.refresh();
 
     expect(await param.value).toBe('XXX');

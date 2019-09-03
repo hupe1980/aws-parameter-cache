@@ -46,6 +46,29 @@ param.refresh();
 const newValue = await param.value;
 ```
 
+## IAM
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:<REGION>:<ACCOUNT_ID>:parameter/<PARAMETER_NAME>"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Resource": "arn:aws:kms:<REGION>:<ACCOUNT_ID>:alias/aws/ssm"
+        }
+    ]
+}
+```
+
 ## License
 
 [MIT](LICENSE)
