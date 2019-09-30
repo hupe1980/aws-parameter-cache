@@ -37,8 +37,9 @@ export class Parameter extends Refreshable {
       const data = await this.cachedResult;
       if (data.Parameter && data.Parameter.Value) {
         resolve(data.Parameter.Value);
+      } else {
+        reject(`The value is missing for parameter ${this.name}`);
       }
-      reject(`The value is missing for parameter ${this.name}`);
     });
   }
 
