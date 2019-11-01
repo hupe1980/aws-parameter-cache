@@ -29,6 +29,7 @@
     "build": "rimraf lib && tsc",
     "build:watch": "rimraf lib && tsc -w",
     "test": "jest",
+    "lint": "eslint '*/**/*.{ts,tsx}' --report-unused-disable-directives",
     "prepare": "npm run build && npm run test"
   },
   "peerDependencies": {
@@ -37,7 +38,10 @@
   "devDependencies": {
     "@types/jest": "^24.0.15",
     "@types/node": "^12.6.2",
+    "@typescript-eslint/eslint-plugin": "^2.6.0",
+    "@typescript-eslint/parser": "^2.6.0",
     "aws-sdk": "^2.493.0",
+    "eslint": "^6.6.0",
     "jest": "^24.8.0",
     "rimraf": "^2.6.3",
     "ts-jest": "^24.0.2",

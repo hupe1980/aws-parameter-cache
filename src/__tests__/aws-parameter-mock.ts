@@ -3,11 +3,11 @@ import { SSM } from 'aws-sdk';
 export class AwsParameterMock {
   private parameters: { [key: string]: SSM.GetParameterResult } | undefined;
 
-  public reset() {
+  public reset(): void {
     this.parameters = undefined;
   }
 
-  public addParameter(param: SSM.PutParameterRequest) {
+  public addParameter(param: SSM.PutParameterRequest): void {
     this.parameters = {
       ...this.parameters,
       [param.Name]: {

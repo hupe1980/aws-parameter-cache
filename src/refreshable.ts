@@ -1,14 +1,11 @@
 export abstract class Refreshable {
-  private readonly maxAge: number | undefined;
   private lastRefreshTime: number;
 
-  constructor(maxAge?: number) {
-    this.maxAge = maxAge;
-  }
+  constructor(private readonly maxAge?: number) {}
 
   protected abstract refreshParameter(): void;
 
-  public refresh() {
+  public refresh(): void {
     this.refreshParameter();
     this.updateLastRefreshTime();
   }
