@@ -75,4 +75,18 @@ describe('aws-parameter-cache: ssm-parameter', () => {
     Date.now = jest.fn(() => 3000);
     expect(await param.value).toBe('XXX');
   });
+
+  it('should return the the stringList as array', async () => {
+    mock.addParameter({
+      Name: 'fooList',
+      Type: 'StringList',
+      Value: 'XXX,YYY,ZZZ'
+    });
+
+    const param = ssmParameter({ name: 'fooList' });
+
+    expect(param.name).toBe('fooList');
+    expect(await param.value).toEqual(['XXX','YYY','ZZZ']);
+  });
+
 });

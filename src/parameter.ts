@@ -31,21 +31,24 @@ export class Parameter extends Refreshable {
     this.ssmClient = new SSM(props.ssmConfiguration);
   }
 
-  public get value() {
+  public get value(): Promise<string|string[]> {
     if (!this.cachedResult || this.isExpired()) {
       this.refresh();
     }
     return new Promise(async (resolve, reject) => {
       const data = await this.cachedResult;
+      
       if (data.Parameter && data.Parameter.Value) {
-        resolve(data.Parameter.Value);
-      } else {
-        reject(`The value is missing for parameter ${this.name}`);
+        return data.Parameter.Type === 'StringList'
+          ? resolve(data.Parameter.Value.split(','))
+          : resolve(data.Parameter.Value);
       }
+      
+      return reject(`The value is missing for parameter ${this.name}`);
     });
   }
 
-  protected refreshParameter() {
+  protected refreshParameter(): void {
     this.cachedResult = this.getParameter(this.name, this.withDecryption);
   }
 

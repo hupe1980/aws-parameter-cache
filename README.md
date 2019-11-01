@@ -46,6 +46,14 @@ param.refresh();
 const newValue = await param.value;
 ```
 
+### StringList
+```javascript
+const param = ssmParameter({ name: 'fooList' });
+const valueArray = await param.value;
+
+valueArray.map(console.log)
+```
+
 ## IAM
 ```json
 {
