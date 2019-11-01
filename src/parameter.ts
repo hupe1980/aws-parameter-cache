@@ -13,6 +13,9 @@ export interface ParameterProps {
 
   /** The maximum amount of time in milliseconds a parameter will be considered fresh */
   maxAge?: number;
+
+  /** https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SSM.html#constructor-property */
+  ssmConfiguration?: Object;
 }
 export class Parameter extends Refreshable {
   public readonly name: string;
@@ -25,8 +28,7 @@ export class Parameter extends Refreshable {
     super(props.maxAge);
     this.name = props.version ? props.name + ':' + props.version : props.name;
     this.withDecryption = props.withDecryption || true;
-
-    this.ssmClient = new SSM();
+    this.ssmClient = new SSM(props.ssmConfiguration);
   }
 
   public get value() {
