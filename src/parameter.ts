@@ -15,7 +15,7 @@ export interface ParameterProps {
   maxAge?: number;
 
   /** https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SSM.html#constructor-property */
-  ssmConfiguration?: Object;
+  ssmConfiguration?: SSM.ClientConfiguration;
 }
 export class Parameter extends Refreshable {
   public readonly name: string;
