@@ -48,10 +48,10 @@ const newValue = await param.value;
 
 ### StringList
 ```javascript
-const param = ssmParameter({ name: 'fooList' });
-const valueArray = await param.value;
+const param = ssmParameter({ name: 'fooList' }); // XXX,YYY,ZZZ
+const valueArray = await param.value; // ['XXX','YYY','ZZZ']
 
-valueArray.map(console.log)
+valueArray.forEach(console.log)
 ```
 
 ## IAM
