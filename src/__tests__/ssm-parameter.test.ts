@@ -89,4 +89,15 @@ describe('aws-parameter-cache: ssm-parameter', () => {
     expect(await param.value).toEqual(['XXX','YYY','ZZZ']);
   });
 
+  it('should reject when ssm rejects', () => {
+    const rejectionMessage = 'ConfigError: Missing region in config'
+    mock.rejectsPromise(rejectionMessage)
+    const param = ssmParameter({
+      name: '/aws/reference/secretsmanager/missing-foo'
+    });
+
+    expect.assertions(1)
+    return expect(param.value).rejects.toEqual(new Error(rejectionMessage))
+  })
+
 });

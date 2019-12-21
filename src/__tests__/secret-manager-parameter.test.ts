@@ -31,4 +31,15 @@ describe('aws-parameter-cache: secrets-manager-parameter', () => {
     expect(param.name).toBe('/aws/reference/secretsmanager/foo');
     expect(await param.value).toBe('bar');
   });
+
+  it('should reject when ssm rejects', () => {
+    const rejectionMessage = 'ConfigError: Missing region in config'
+    mock.rejectsPromise(rejectionMessage)
+    const param = secretsManagerParameter({
+      name: '/aws/reference/secretsmanager/missing-foo'
+    });
+
+    expect.assertions(1)
+    return expect(param.value).rejects.toEqual(new Error(rejectionMessage))
+  })
 });
