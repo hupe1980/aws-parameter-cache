@@ -36,15 +36,15 @@
     "aws-sdk": ">=2.0"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.4",
-    "@types/node": "^12.12.34",
-    "@typescript-eslint/eslint-plugin": "^2.26.0",
-    "@typescript-eslint/parser": "^2.26.0",
-    "aws-sdk": "^2.651.0",
-    "eslint": "^6.8.0",
-    "jest": "^25.2.4",
+    "@types/jest": "^26.0.3",
+    "@types/node": "^12.12.58",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "aws-sdk": "^2.752.0",
+    "eslint": "^7.9.0",
+    "jest": "^26.4.2",
     "rimraf": "^3.0.2",
-    "ts-jest": "^25.3.0",
-    "typescript": "^3.8.3"
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.2"
   }
 }

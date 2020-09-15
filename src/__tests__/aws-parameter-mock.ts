@@ -25,7 +25,7 @@ export class AwsParameterMock {
     this.rejectionMessage = message 
   }
 
-  public get implementation(): Record<string, Function> {
+  public get implementation(): Record<string, unknown> {
     return {
       getParameter: jest.fn(params => ({
         promise: jest.fn(() => {
