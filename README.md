@@ -1,7 +1,6 @@
 # aws-parameter-cache
 
-[![Build Status](https://travis-ci.org/hupe1980/aws-parameter-cache.svg?branch=master)](https://travis-ci.org/hupe1980/aws-parameter-cache)
-
+[![Build Status](https://github.com/hupe1980/aws-parameter-cache/workflows/CI/badge.svg)](https://github.com/hupe1980/aws-parameter-cache/workflows/CI/badge.svg)
 > Parameter cache for AWS System Manager Parameter Store and AWS Secrets Manager
 
 ## Installation
