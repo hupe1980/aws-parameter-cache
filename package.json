@@ -30,7 +30,7 @@
     "build:watch": "rimraf lib && tsc -w",
     "test": "jest",
     "lint": "eslint '*/**/*.{ts,tsx}' --report-unused-disable-directives",
-    "prepare": "npm run build && npm run test"
+    "prepare": "yarn build && yarn test"
   },
   "peerDependencies": {
     "aws-sdk": ">=2.0"
