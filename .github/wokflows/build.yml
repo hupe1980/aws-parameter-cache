@@ -1,4 +1,4 @@
-name: build
+name: Build
 
 on:
   push:
@@ -10,24 +10,23 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x]
-
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: yarn install, lint, test and build
-      run: |
-        yarn install --frozen-lockfile
-        yarn lint
-        yarn test
-        yarn build
-      env:
-        CI: true
+    - name: Installing
+      run: yarn install --frozen-lockfile
+    - name: Linting
+      run: yarn lint
+    - name: UnitTesting
+      run: yarn test
+    - name: Building
+      run: yarn build
+    - name: Anti-tamper check
+      run: git diff --exit-code
