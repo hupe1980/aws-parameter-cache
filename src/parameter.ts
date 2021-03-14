@@ -1,5 +1,5 @@
-import { SSM } from 'aws-sdk';
-import { Refreshable } from './refreshable';
+import { SSM } from "aws-sdk";
+import { Refreshable } from "./refreshable";
 
 export interface ParameterProps {
   /** The name of the parameter you want to query. */
@@ -18,52 +18,44 @@ export interface ParameterProps {
   ssmConfiguration?: SSM.ClientConfiguration;
 }
 export class Parameter extends Refreshable {
-         public readonly name: string;
+  public readonly name: string;
 
-         private readonly withDecryption: boolean;
-         private readonly ssmClient: SSM;
-         private cachedResult: Promise<SSM.GetParameterResult>;
+  private readonly withDecryption: boolean;
+  private readonly ssmClient: SSM;
+  private cachedResult: Promise<SSM.GetParameterResult>;
 
-         constructor(props: ParameterProps) {
-           super(props.maxAge);
-           this.name = props.version
-             ? props.name + ':' + props.version
-             : props.name;
-           this.withDecryption = props.withDecryption || true;
-           this.ssmClient = new SSM(props.ssmConfiguration);
-         }
+  constructor(props: ParameterProps) {
+    super(props.maxAge);
+    this.name = props.version ? props.name + ":" + props.version : props.name;
+    this.withDecryption = props.withDecryption || true;
+    this.ssmClient = new SSM(props.ssmConfiguration);
+  }
 
-         public get value(): Promise<string | string[]> {
-           if (!this.cachedResult || this.isExpired()) {
-             this.refresh();
-           }
+  public get value(): Promise<string | string[]> {
+    if (!this.cachedResult || this.isExpired()) {
+      this.refresh();
+    }
 
-           return this.cachedResult.then(data => {
-             if (data.Parameter && data.Parameter.Value) {
-               return data.Parameter.Type === 'StringList'
-                 ? data.Parameter.Value.split(',')
-                 : data.Parameter.Value;
-             }
+    return this.cachedResult.then((data) => {
+      if (data.Parameter?.Value) {
+        return data.Parameter.Type === "StringList"
+          ? data.Parameter.Value.split(",")
+          : data.Parameter.Value;
+      }
 
-             throw new Error(`The value is missing for parameter ${this.name}`);
-           });
-         }
+      throw new Error(`The value is missing for parameter ${this.name}`);
+    });
+  }
 
-         protected refreshParameter(): void {
-           this.cachedResult = this.getParameter(
-             this.name,
-             this.withDecryption
-           );
-         }
+  protected refreshParameter(): void {
+    this.cachedResult = this.getParameter();
+  }
 
-         private getParameter(
-           name: string,
-           withDecryption: boolean
-         ): Promise<SSM.GetParameterResult> {
-           const params = {
-             Name: name,
-             WithDecryption: withDecryption
-           };
-           return this.ssmClient.getParameter(params).promise();
-         }
-       }
+  private getParameter(): Promise<SSM.GetParameterResult> {
+    const params = {
+      Name: this.name,
+      WithDecryption: this.withDecryption,
+    };
+    return this.ssmClient.getParameter(params).promise();
+  }
+}

@@ -42,7 +42,10 @@
     "@typescript-eslint/parser": "^4.1.1",
     "aws-sdk": "^2.752.0",
     "eslint": "^7.9.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "jest": "^26.4.2",
+    "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.3.0",
     "typescript": "^4.0.2"
