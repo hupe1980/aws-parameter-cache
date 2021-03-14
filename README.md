@@ -11,7 +11,7 @@ npm install --save aws-parameter-cache
 
 ## How to use
 
-```javascript
+```typescript
 import { ssmParameter } from 'aws-parameter-cache';
 
 const param = ssmParameter({ name: 'foo' });
@@ -20,23 +20,32 @@ const value = await param.value;
 
 ### Secrets Manager Parameter
 
-```javascript
+```typescript
+// https://docs.aws.amazon.com/systems-manager/latest/userguide/integration-ps-secretsmanager.html
 import { secretsManagerParameter } from 'aws-parameter-cache';
 
 const param = secretsManagerParameter({ name: 'foo' });
 const value = await param.value;
 ```
+### Secrets Manager Secret
+
+```typescript
+import { secretsManagerSecret } from 'aws-parameter-cache';
+
+const secret = secretsManagerSecret({ secretId: 'foo' });
+const secretString = await secret.secretString;
+```
 
 ### Cache invalidation
 
-```javascript
+```typescript
 const param = ssmParameter({ name: 'foo', maxAge: 1000 * 60 * 5 });
 const value = await param.value;
 ```
 
 ### Force refresh
 
-```javascript
+```typescript
 const param = ssmParameter({ name: 'foo' });
 const value = await param.value;
 
@@ -45,15 +54,26 @@ param.refresh();
 const newValue = await param.value;
 ```
 
-### StringList
-```javascript
+### StringList (SSM Parameter)
+```typescript
 const param = ssmParameter({ name: 'fooList' }); // XXX,YYY,ZZZ
 const valueArray = await param.value; // ['XXX','YYY','ZZZ']
 
 valueArray.forEach(console.log)
 ```
 
-## IAM
+### Usage with AWS Lambda
+```typescript
+const param = ssmParameter({ name: 'name' });
+
+exports.handler =  async function(event, context) {
+  const value = await param.value
+  return `Hello ${value}`
+}
+
+```
+
+## IAM (SSM Parameter)
 ```json
 {
     "Version": "2012-10-17",
