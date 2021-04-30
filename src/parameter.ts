@@ -1,4 +1,4 @@
-import { SSM } from "aws-sdk";
+import { SSM, GetParameterResult, SSMClientConfig } from "@aws-sdk/client-ssm";
 import { Refreshable } from "./refreshable";
 
 export interface ParameterProps {
@@ -15,20 +15,20 @@ export interface ParameterProps {
   maxAge?: number;
 
   /** https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SSM.html#constructor-property */
-  ssmConfiguration?: SSM.ClientConfiguration;
+  ssmConfiguration?: SSMClientConfig;
 }
 export class Parameter extends Refreshable {
   public readonly name: string;
 
   private readonly withDecryption: boolean;
   private readonly ssmClient: SSM;
-  private cachedResult: Promise<SSM.GetParameterResult>;
+  private cachedResult: Promise<GetParameterResult>;
 
-  constructor(props: ParameterProps) {
-    super(props.maxAge);
-    this.name = props.version ? props.name + ":" + props.version : props.name;
-    this.withDecryption = props.withDecryption || true;
-    this.ssmClient = new SSM(props.ssmConfiguration);
+  constructor({version = '', name = '' ,maxAge = undefined, ssmConfiguration = {}, withDecryption =true}: ParameterProps) {
+    super(maxAge);
+    this.name = version ? name + ":" + version : name;
+    this.withDecryption =withDecryption;
+    this.ssmClient = new SSM(ssmConfiguration);
   }
 
   public get value(): Promise<string | string[]> {
@@ -51,11 +51,11 @@ export class Parameter extends Refreshable {
     this.cachedResult = this.getParameter();
   }
 
-  private getParameter(): Promise<SSM.GetParameterResult> {
+  private getParameter(): Promise<GetParameterResult> {
     const params = {
       Name: this.name,
       WithDecryption: this.withDecryption,
     };
-    return this.ssmClient.getParameter(params).promise();
+    return this.ssmClient.getParameter(params);
   }
 }

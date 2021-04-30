@@ -2,7 +2,7 @@ import { SecretsManagerMock } from "./secrets-manager-mock";
 import { secretsManagerSecret } from "../secrets-manager-secret";
 
 const mock = new SecretsManagerMock();
-jest.mock("aws-sdk", () => ({
+jest.mock("@aws-sdk/client-secrets-manager", () => ({
   SecretsManager: jest.fn().mockImplementation(() => mock.implementation),
 }));
 

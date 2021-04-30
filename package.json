@@ -33,14 +33,14 @@
     "prepare": "yarn build && yarn test"
   },
   "peerDependencies": {
-    "aws-sdk": ">=2.0"
+    "@aws-sdk/client-secrets-manager": "^3.13.1",
+    "@aws-sdk/client-ssm": "^3.13.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.3",
     "@types/node": "^12.12.58",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
-    "aws-sdk": "^2.752.0",
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
@@ -49,5 +49,9 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^26.3.0",
     "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.13.1",
+    "@aws-sdk/client-ssm": "^3.13.1"
   }
 }

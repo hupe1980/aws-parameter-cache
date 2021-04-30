@@ -1,4 +1,4 @@
-import { SecretsManager } from "aws-sdk";
+import { SecretsManager, SecretsManagerClientConfig, GetSecretValueResponse } from "@aws-sdk/client-secrets-manager";
 import { Refreshable } from "./refreshable";
 
 export interface SecretProps {
@@ -18,7 +18,7 @@ export interface SecretProps {
   maxAge?: number;
 
   /** https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SecretsManager.html#constructor-property */
-  secretsManagerConfiguration?: SecretsManager.ClientConfiguration;
+  secretsManagerConfiguration?: SecretsManagerClientConfig;
 }
 export class Secret extends Refreshable {
   public readonly secretId: string;
@@ -27,15 +27,15 @@ export class Secret extends Refreshable {
   public readonly key?: string;
 
   private readonly secretsManager: SecretsManager;
-  private cachedResponse: Promise<SecretsManager.GetSecretValueResponse>;
+  private cachedResponse: Promise<GetSecretValueResponse>;
 
-  constructor(props: SecretProps) {
-    super(props.maxAge);
-    this.secretId = props.secretId;
-    this.versionId = props.versionId;
-    this.versionStage = props.versionStage;
-    this.key = props.key;
-    this.secretsManager = new SecretsManager(props.secretsManagerConfiguration);
+  constructor({maxAge = 0, secretId = '', versionId ='',versionStage = '',secretsManagerConfiguration ={},key = ''}: SecretProps) {
+    super(maxAge);
+    this.secretId = secretId;
+    this.versionId = versionId;
+    this.versionStage = versionStage;
+    this.key = key;
+    this.secretsManager = new SecretsManager(secretsManagerConfiguration || {});
   }
 
   public get secretString(): Promise<string> {
@@ -60,12 +60,12 @@ export class Secret extends Refreshable {
     this.cachedResponse = this.getSecretValue();
   }
 
-  private getSecretValue(): Promise<SecretsManager.GetSecretValueResponse> {
+  private getSecretValue(): Promise<GetSecretValueResponse> {
     const params = {
       SecretId: this.secretId,
       VersionId: this.versionId,
       VersionStage: this.versionStage,
     };
-    return this.secretsManager.getSecretValue(params).promise();
+    return this.secretsManager.getSecretValue(params);
   }
 }

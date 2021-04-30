@@ -1,7 +1,7 @@
-import { SSM } from "aws-sdk";
+import {  GetParameterResult, PutParameterRequest} from "@aws-sdk/client-ssm";
 
 export class SSMParameterMock {
-  private parameters: { [key: string]: SSM.GetParameterResult } | undefined;
+  private parameters: { [key: string]: GetParameterResult } | undefined;
   private rejects = false;
   private rejectionMessage: string | undefined;
 
@@ -11,10 +11,10 @@ export class SSMParameterMock {
     this.rejectionMessage = undefined;
   }
 
-  public addParameter(param: SSM.PutParameterRequest): void {
+  public addParameter(param: PutParameterRequest): void {
     this.parameters = {
       ...this.parameters,
-      [param.Name]: {
+      [param.Name as any]: {
         Parameter: param,
       },
     };
@@ -27,9 +27,7 @@ export class SSMParameterMock {
 
   public get implementation(): Record<string, unknown> {
     return {
-      getParameter: jest.fn((params) => ({
-        promise: jest.fn(() => {
-          return new Promise((resolve, reject) => {
+      getParameter: jest.fn((params) =>  new Promise((resolve, reject) => {
             if (this.rejects) {
               reject(new Error(this.rejectionMessage));
             }
@@ -37,9 +35,8 @@ export class SSMParameterMock {
               return resolve(this.parameters[params.Name]);
             }
             reject(new Error("Missing param"));
-          });
-        }),
-      })),
+          })
+      ),
     };
   }
 }

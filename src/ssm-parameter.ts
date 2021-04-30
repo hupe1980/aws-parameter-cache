@@ -1,5 +1,3 @@
 import { Parameter, ParameterProps } from "./parameter";
 
-export function ssmParameter(props: ParameterProps): Parameter {
-  return new Parameter(props);
-}
+export const  ssmParameter = (props: ParameterProps): Parameter => new Parameter(props);
