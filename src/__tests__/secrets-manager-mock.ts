@@ -12,7 +12,7 @@ export class SecretsManagerMock {
   public addSecretString(secretId: string, secretString: string): void {
     this.secretStrings = {
       ...this.secretStrings,
-      [secretId]: {
+      [secretId as any]: {
         SecretString: secretString,
       },
     };
@@ -25,9 +25,7 @@ export class SecretsManagerMock {
 
   public get implementation(): Record<string, unknown> {
     return {
-      getSecretValue: jest.fn((params) => ({
-        promise: jest.fn(() => {
-          return new Promise((resolve, reject) => {
+      getSecretValue: jest.fn((params) =>  new Promise((resolve, reject) => {
             if (this.rejects) {
               reject(new Error(this.rejectionMessage));
             }
@@ -35,9 +33,9 @@ export class SecretsManagerMock {
               return resolve(this.secretStrings[params.SecretId]);
             }
             reject(new Error("Missing secret"));
-          });
-        }),
-      })),
+          }
+        ),
+      ),
     };
   }
 }

@@ -2,7 +2,7 @@ import { SSMParameterMock } from "./ssm-parameter-mock";
 import { secretsManagerParameter } from "../secrets-manager-parameter";
 
 const mock = new SSMParameterMock();
-jest.mock("aws-sdk", () => ({
+jest.mock("@aws-sdk/client-ssm", () => ({
   SSM: jest.fn().mockImplementation(() => mock.implementation),
 }));
 
