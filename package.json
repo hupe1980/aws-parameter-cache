@@ -1,6 +1,6 @@
 {
   "name": "aws-parameter-cache",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Parameter cache for AWS System Manager Parameter Store and AWS Secrets Manager",
   "repository": {
     "type": "git",
