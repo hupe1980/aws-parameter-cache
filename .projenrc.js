@@ -1,12 +1,40 @@
-const { TypeScriptProject } = require('projen');
+const { TypeScriptProject, UpgradeDependenciesSchedule } = require('projen');
+
 const project = new TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'aws-parameter-cache',
-
-  // deps: [],                /* Runtime dependencies of this module. */
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // devDeps: [],             /* Build dependencies for this module. */
-  // packageName: undefined,  /* The "name" in package.json. */
-  // release: undefined,      /* Add release management to this project. */
+  description: 'Parameter cache for AWS System Manager Parameter Store and AWS Secrets Manager',
+  keywords: [
+    'aws',
+    'aws-sdk',
+    'aws-sdk-v3',
+    'aws-client',
+    'ssm',
+    'aws-ssm',
+    'cache',
+    'secrests-manager',
+    'parameter-store',
+  ],
+  repository: 'https://github.com/hupe1980/aws-parameter-cache.git',
+  license: 'MIT',
+  copyrightOwner: 'Frank Hübner',
+  majorVersion: 2,
+  releaseToNpm: true,
+  devDeps: ['@aws-sdk/client-secrets-manager', '@aws-sdk/client-ssm', 'jest-aws-client-mock'],
+  peerDeps: ['@aws-sdk/client-secrets-manager', '@aws-sdk/client-ssm'],
+  depsUpgrade: true,
+  depsUpgradeOptions: {
+    workflowOptions: {
+      labels: ['auto-approve', 'auto-merge'],
+      secret: 'AUTOMATION_GITHUB_TOKEN',
+      schedule: UpgradeDependenciesSchedule.WEEKLY,
+    },
+  },
+  autoApproveUpgrades: true,
+  autoApproveOptions: {
+    secret: 'GITHUB_TOKEN',
+    allowedUsernames: ['hupe1980'],
+  },
 });
+project.gitignore.exclude('.DS_Store');
 project.synth();

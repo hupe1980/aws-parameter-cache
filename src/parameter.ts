@@ -1,5 +1,5 @@
-import { SSM } from "aws-sdk";
-import { Refreshable } from "./refreshable";
+import { SSMClient, GetParameterCommand, SSMClientConfig, GetParameterCommandOutput } from '@aws-sdk/client-ssm';
+import { Refreshable } from './refreshable';
 
 export interface ParameterProps {
   /** The name of the parameter you want to query. */
@@ -14,21 +14,21 @@ export interface ParameterProps {
   /** The maximum amount of time in milliseconds a parameter will be considered fresh */
   maxAge?: number;
 
-  /** https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SSM.html#constructor-property */
-  ssmConfiguration?: SSM.ClientConfiguration;
+  /** https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ssm/interfaces/ssmclientconfig.html */
+  ssmClientConfig?: SSMClientConfig;
 }
 export class Parameter extends Refreshable {
   public readonly name: string;
 
   private readonly withDecryption: boolean;
-  private readonly ssmClient: SSM;
-  private cachedResult: Promise<SSM.GetParameterResult>;
+  private readonly ssmClient: SSMClient;
+  private cachedResult?: Promise<GetParameterCommandOutput>;
 
   constructor(props: ParameterProps) {
     super(props.maxAge);
-    this.name = props.version ? props.name + ":" + props.version : props.name;
+    this.name = props.version ? props.name + ':' + props.version : props.name;
     this.withDecryption = props.withDecryption || true;
-    this.ssmClient = new SSM(props.ssmConfiguration);
+    this.ssmClient = new SSMClient({ ...props.ssmClientConfig });
   }
 
   public get value(): Promise<string | string[]> {
@@ -36,10 +36,10 @@ export class Parameter extends Refreshable {
       this.refresh();
     }
 
-    return this.cachedResult.then((data) => {
+    return this.cachedResult!.then((data) => {
       if (data.Parameter?.Value) {
-        return data.Parameter.Type === "StringList"
-          ? data.Parameter.Value.split(",")
+        return data.Parameter.Type === 'StringList'
+          ? data.Parameter.Value.split(',')
           : data.Parameter.Value;
       }
 
@@ -51,11 +51,12 @@ export class Parameter extends Refreshable {
     this.cachedResult = this.getParameter();
   }
 
-  private getParameter(): Promise<SSM.GetParameterResult> {
-    const params = {
+  private getParameter(): Promise<GetParameterCommandOutput> {
+    const command = new GetParameterCommand({
       Name: this.name,
       WithDecryption: this.withDecryption,
-    };
-    return this.ssmClient.getParameter(params).promise();
+    });
+
+    return this.ssmClient.send(command);
   }
 }

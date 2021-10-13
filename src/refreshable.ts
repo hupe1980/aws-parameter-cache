@@ -1,5 +1,5 @@
 export abstract class Refreshable {
-  private lastRefreshTime: number;
+  private lastRefreshTime?: number;
 
   constructor(private readonly maxAge?: number) {}
 

@@ -2,6 +2,7 @@
 !/.gitattributes
 !/.projen/tasks.json
 !/.projen/deps.json
+!/.github/workflows/auto-approve.yml
 !/.github/workflows/stale.yml
 !/package.json
 !/LICENSE
@@ -45,5 +46,6 @@ junit.xml
 /lib
 /dist/
 !/.eslintrc.json
+.DS_Store
 !/.github/workflows/release.yml
 !/.github/workflows/upgrade-main.yml

@@ -1,6 +1,6 @@
-import { Parameter, ParameterProps } from "./parameter";
+import { Parameter, ParameterProps } from './parameter';
 
-const PREFIX = "/aws/reference/secretsmanager/";
+const PREFIX = '/aws/reference/secretsmanager/';
 
 export function secretsManagerParameter(props: ParameterProps): Parameter {
   if (!props.name.startsWith(PREFIX)) {
