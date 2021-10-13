@@ -1,12 +1,13 @@
 # aws-parameter-cache
+![Build](https://github.com/hupe1980/aws-parameter-cache/workflows/build/badge.svg)
+![Release](https://github.com/hupe1980/aws-parameter-cache/workflows/release/badge.svg)
 
-[![Build Status](https://github.com/hupe1980/aws-parameter-cache/workflows/CI/badge.svg)](https://github.com/hupe1980/aws-parameter-cache/workflows/CI/badge.svg)
 > Parameter cache for AWS System Manager Parameter Store and AWS Secrets Manager
 
 ## Installation
 
 ```bash
-npm install --save aws-parameter-cache
+npm install aws-parameter-cache @aws-sdk/client-ssm @aws-sdk/client-secrets-manager
 ```
 
 ## How to use
@@ -66,7 +67,7 @@ valueArray.forEach(console.log)
 ```typescript
 const param = ssmParameter({ name: 'name' });
 
-exports.handler =  async function(event, context) {
+export const handler =  async function(event, context) {
   const value = await param.value
   return `Hello ${value}`
 }
