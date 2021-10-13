@@ -67,7 +67,7 @@ valueArray.forEach(console.log)
 ```typescript
 const param = ssmParameter({ name: 'name' });
 
-export const handler =  async function(event, context) {
+export const handler =  async (event, context) => {
   const value = await param.value
   return `Hello ${value}`
 }
