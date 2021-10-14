@@ -6,8 +6,8 @@ export abstract class Refreshable {
   protected abstract refreshParameter(): void;
 
   public refresh(): void {
-    this.refreshParameter();
     this.updateLastRefreshTime();
+    this.refreshParameter();
   }
 
   private updateLastRefreshTime(): void {

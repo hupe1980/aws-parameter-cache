@@ -39,21 +39,25 @@ export class Secret extends Refreshable {
   }
 
   public get secretString(): Promise<string> {
+    return this.getSecretString();
+  }
+
+  public async getSecretString(): Promise<string> {
     if (!this.cachedResponse || this.isExpired()) {
       this.refresh();
     }
 
-    return this.cachedResponse!.then((data) => {
+    if (this.cachedResponse) {
+      const data = await this.cachedResponse;
+
       if (data.SecretString) {
         return this.key
           ? JSON.parse(data.SecretString)[this.key]
           : data.SecretString;
       }
+    }
 
-      throw new Error(
-        `The secretString is missing for secret ${this.secretId}`,
-      );
-    });
+    throw new Error(`The secretString is missing for secret ${this.secretId}`);
   }
 
   protected refreshParameter(): void {

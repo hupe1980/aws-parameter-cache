@@ -32,19 +32,25 @@ export class Parameter extends Refreshable {
   }
 
   public get value(): Promise<string | string[]> {
+    return this.getValue();
+  }
+
+  public async getValue(): Promise<string | string[]> {
     if (!this.cachedResult || this.isExpired()) {
       this.refresh();
     }
 
-    return this.cachedResult!.then((data) => {
+    if (this.cachedResult) {
+      const data = await this.cachedResult;
+
       if (data.Parameter?.Value) {
         return data.Parameter.Type === 'StringList'
           ? data.Parameter.Value.split(',')
           : data.Parameter.Value;
       }
+    }
 
-      throw new Error(`The value is missing for parameter ${this.name}`);
-    });
+    throw new Error(`The value is missing for parameter ${this.name}`);
   }
 
   protected refreshParameter(): void {
