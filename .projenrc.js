@@ -35,6 +35,11 @@ const project = new TypeScriptProject({
     secret: 'GITHUB_TOKEN',
     allowedUsernames: ['hupe1980'],
   },
+  tsconfig: {
+    compilerOptions: {
+      lib: ['dom', 'es2019'],
+    },
+  },
 });
 project.gitignore.exclude('.DS_Store');
 project.synth();
