@@ -38,7 +38,7 @@
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.3",
     "jest": "^27.3.1",
-    "jest-aws-client-mock": "^0.0.18",
+    "jest-aws-client-mock": "^0.0.19",
     "jest-junit": "^12",
     "json-schema": "^0.4.0",
     "npm-check-updates": "^11",
